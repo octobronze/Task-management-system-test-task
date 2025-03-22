@@ -20,7 +20,6 @@ import java.util.Map;
 public class JwtService {
     private static final String JWT_EXPIRED = "Jwt has been expired";
     private static final String JWT_NOT_VALID = "Jwt not valid";
-    private static final String ROLE_CLAIM = "role";
 
     @Value("${jwt.signing.key}")
     private String userTokenSigningKey;
@@ -55,20 +54,10 @@ public class JwtService {
         return Integer.parseInt(claims.getSubject());
     }
 
-    public String getRole(String token) {
-        Claims claims = getClaims(token, userTokenSigningKey);
-
-        return (String) claims.get(ROLE_CLAIM);
-    }
-
-    public String generateTokenForUser(Integer userId, String role) {
+    public String generateTokenByUserDetailsImpl(UserDetailsImpl userDetails) {
         return generateToken(
-                new HashMap<>() {
-                    {
-                        put(ROLE_CLAIM, "Role_" + role);
-                    }
-                },
-                userId.toString(),
+                new HashMap<>(),
+                String.valueOf(userDetails.getId()),
                 Keys.hmacShaKeyFor(userTokenSigningKey.getBytes(StandardCharsets.UTF_8)));
     }
 

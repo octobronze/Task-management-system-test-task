@@ -35,6 +35,10 @@ public class UserDetailsImpl implements UserDetails {
         return username;
     }
 
+    public boolean isAdmin() {
+        return this.authorities.iterator().next().getAuthority().equals("Role_Admin");
+    }
+
     public void setAuthorities(String role) {
         this.authorities = List.of(new SimpleGrantedAuthority(role));
     }

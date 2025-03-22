@@ -33,7 +33,7 @@ public class Task {
     @Enumerated(value = EnumType.ORDINAL)
     private TaskPriorityEnum priority;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
     @Column(name = "creator_id")
