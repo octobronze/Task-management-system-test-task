@@ -36,11 +36,11 @@ public class Task {
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
-    @Column(name = "creator_id")
+    @JoinColumn(name = "creator_id")
     @ManyToOne
     private User creator;
 
-    @Column(name = "implementer_id")
+    @JoinColumn(name = "implementer_id")
     @ManyToOne
     private User implementer;
 }

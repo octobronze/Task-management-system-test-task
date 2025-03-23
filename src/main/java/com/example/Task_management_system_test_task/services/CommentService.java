@@ -8,14 +8,14 @@ import com.example.Task_management_system_test_task.repos.UserRepository;
 import com.example.Task_management_system_test_task.tables.Comment;
 import com.example.Task_management_system_test_task.tables.Task;
 import com.example.Task_management_system_test_task.tables.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.TASK_NOT_FOUND;
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.USER_NOT_FOUND;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;

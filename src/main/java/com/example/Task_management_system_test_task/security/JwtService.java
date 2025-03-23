@@ -1,11 +1,12 @@
 package com.example.Task_management_system_test_task.security;
 
+import com.example.Task_management_system_test_task.tables.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtService {
     private static final String JWT_EXPIRED = "Jwt has been expired";
     private static final String JWT_NOT_VALID = "Jwt not valid";
@@ -54,10 +55,10 @@ public class JwtService {
         return Integer.parseInt(claims.getSubject());
     }
 
-    public String generateTokenByUserDetailsImpl(UserDetailsImpl userDetails) {
+    public String generateTokenForUser(User user) {
         return generateToken(
                 new HashMap<>(),
-                String.valueOf(userDetails.getId()),
+                String.valueOf(user.getId()),
                 Keys.hmacShaKeyFor(userTokenSigningKey.getBytes(StandardCharsets.UTF_8)));
     }
 

@@ -7,7 +7,8 @@ import com.example.Task_management_system_test_task.repos.TaskRepository;
 import com.example.Task_management_system_test_task.security.JwtService;
 import com.example.Task_management_system_test_task.security.UserDetailsImpl;
 import com.example.Task_management_system_test_task.tables.Task;
-import lombok.AllArgsConstructor;
+import com.example.Task_management_system_test_task.tables.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.TASK_NOT_FOUND;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AuthService {
     private final AuthenticationManager authenticationManager;
@@ -33,7 +34,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword())
         );
 
-        String jwtToken = jwtService.generateTokenByUserDetailsImpl((UserDetailsImpl) authentication.getDetails());
+        String jwtToken = jwtService.generateTokenForUser((User) authentication.getDetails());
 
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         loginResponseDto.setToken(jwtToken);
