@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserDetailsImpl implements UserDetails {
+public class UserPrincipal implements UserDetails {
     private Integer id;
     private String password;
     private String username;
@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override
@@ -36,14 +36,14 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return this.authorities.iterator().next().getAuthority().equals("Role_Admin");
+        return this.authorities.iterator().next().getAuthority().equals("ROLE_Admin");
     }
 
     public void setAuthorities(String role) {
-        this.authorities = List.of(new SimpleGrantedAuthority(role));
+        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
-    public UserDetailsImpl(User user) {
+    public UserPrincipal(User user) {
         this.id = user.getId();
         this.password = user.getPassword();
         this.username = user.getEmail();

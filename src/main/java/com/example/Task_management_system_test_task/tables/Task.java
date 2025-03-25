@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
+@NamedEntityGraph(name = "task.comments", attributeNodes = @NamedAttributeNode("comments"))
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

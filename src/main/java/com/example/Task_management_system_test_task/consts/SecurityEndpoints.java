@@ -13,15 +13,15 @@ public class SecurityEndpoints {
     };
 
 
-
-    public static final String[] USER_ENDPOINTS_PUT = new String[] {
+    public static final String[] USER_ENDPOINTS_PUT = new String[]{
             "/task", "/task/implementer/{id}"
     };
-    public static final String[] USER_ENDPOINTS_GET = new String[] {
+    public static final String[] USER_ENDPOINTS_GET = new String[]{
             "/task/creator/{id}"
     };
-
-
+    public static final String[] USER_ENDPOINTS_POST = new String[]{
+            "/task/filters"
+    };
 
     public static final String[] SWAGGER_ENDPOINTS = new String[] {
             "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"

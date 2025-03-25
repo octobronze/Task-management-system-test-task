@@ -25,6 +25,7 @@ public class ControllerAdvice {
     public ResponseEntity<ExceptionResponseDto> handleException(Exception exception) {
         ExceptionResponseDto response = new ExceptionResponseDto();
 
+        exception.printStackTrace();
         response.setMessage(exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

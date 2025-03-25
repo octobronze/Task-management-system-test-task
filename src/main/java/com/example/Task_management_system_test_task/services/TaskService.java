@@ -79,14 +79,10 @@ public class TaskService {
     }
 
     public Page<TaskGetResponseDto> getTasksWithFilters(TaskFilterRequestDto requestDto) {
-        return taskRepository.findBy(
+        return taskRepository.findAllWithComments(
                 new TaskSpecification(requestDto),
-                fetchable -> fetchable.project("comments").page(PageRequest.of(requestDto.getPageIndex(), requestDto.getPageSize())))
-                .map(DtoMapper::taskToTaskGetResponseDto);
-//        return taskRepository.findAll(
-//                new TaskSpecification(requestDto),
-//                PageRequest.of(requestDto.getPageIndex(), requestDto.getPageSize())
-//
-//        ).map(DtoMapper::taskToTaskGetResponseDto);
+                PageRequest.of(requestDto.getPageIndex(), requestDto.getPageSize())
+
+        ).map(DtoMapper::taskToTaskGetResponseDto);
     }
 }

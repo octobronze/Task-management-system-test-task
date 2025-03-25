@@ -1,6 +1,5 @@
 package com.example.Task_management_system_test_task.security;
 
-import com.example.Task_management_system_test_task.tables.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -55,10 +54,10 @@ public class JwtService {
         return Integer.parseInt(claims.getSubject());
     }
 
-    public String generateTokenForUser(User user) {
+    public String generateTokenByUserPrincipal(UserPrincipal userPrincipal) {
         return generateToken(
                 new HashMap<>(),
-                String.valueOf(user.getId()),
+                String.valueOf(userPrincipal.getId()),
                 Keys.hmacShaKeyFor(userTokenSigningKey.getBytes(StandardCharsets.UTF_8)));
     }
 

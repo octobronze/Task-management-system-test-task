@@ -1,9 +1,11 @@
 package com.example.Task_management_system_test_task.controllers;
 
 import com.example.Task_management_system_test_task.dtos.CommentCreateRequestDto;
-import com.example.Task_management_system_test_task.security.UserDetailsImpl;
+import com.example.Task_management_system_test_task.security.UserPrincipal;
 import com.example.Task_management_system_test_task.services.AuthService;
 import com.example.Task_management_system_test_task.services.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,19 +22,23 @@ public class CommentController {
     private final AuthService authService;
 
     @PostMapping
+    @SecurityRequirement(name = "JWT")
+    @Operation(description = "Добавление комментария")
     public ResponseEntity<String> createComment(Authentication authentication,
                                                 @RequestBody CommentCreateRequestDto requestDto) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
-        if (!authService.hasAccessToCreateComment(userDetails, requestDto.getTaskId())) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        if (!authService.hasAccessToCreateComment(userPrincipal, requestDto.getTaskId())) {
             throw new AccessDeniedException(ACCESS_DENIED);
         }
 
-        commentService.createComment(userDetails.getId(), requestDto);
+        commentService.createComment(userPrincipal.getId(), requestDto);
 
         return ResponseEntity.ok("ok");
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "JWT")
+    @Operation(description = "Удаление комментария")
     public ResponseEntity<String> deleteComment(@PathVariable(name = "id") Integer id) {
         commentService.deleteComment(id);
 
