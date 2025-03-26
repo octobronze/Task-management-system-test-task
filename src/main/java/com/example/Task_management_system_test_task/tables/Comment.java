@@ -19,10 +19,10 @@ public class Comment {
     private String value;
 
     @JoinColumn(name = "task_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Task task;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }

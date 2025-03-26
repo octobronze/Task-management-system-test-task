@@ -1,4 +1,4 @@
-package com.example.Task_management_system_test_task.utils;
+package com.example.Task_management_system_test_task.other;
 
 import com.example.Task_management_system_test_task.dtos.CommentGetResponseDto;
 import com.example.Task_management_system_test_task.dtos.TaskGetResponseDto;

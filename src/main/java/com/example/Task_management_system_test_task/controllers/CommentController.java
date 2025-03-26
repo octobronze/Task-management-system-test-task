@@ -23,7 +23,7 @@ public class CommentController {
 
     @PostMapping
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Добавление комментария")
+    @Operation(summary = "Добавление комментария")
     public ResponseEntity<String> createComment(Authentication authentication,
                                                 @RequestBody CommentCreateRequestDto requestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -38,7 +38,7 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Удаление комментария")
+    @Operation(summary = "Удаление комментария")
     public ResponseEntity<String> deleteComment(@PathVariable(name = "id") Integer id) {
         commentService.deleteComment(id);
 

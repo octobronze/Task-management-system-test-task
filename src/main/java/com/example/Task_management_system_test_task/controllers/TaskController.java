@@ -24,7 +24,7 @@ public class TaskController {
 
     @PostMapping
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Добавление задачи")
+    @Operation(summary = "Добавление задачи")
     public ResponseEntity<String> createTask(Authentication authentication, @RequestBody TaskCreateRequestDto requestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
@@ -35,7 +35,7 @@ public class TaskController {
 
     @PutMapping
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Изменение задачи обычным пользователем")
+    @Operation(summary = "Изменение задачи обычным пользователем")
     public ResponseEntity<String> updateTask(Authentication authentication, @RequestBody TaskUpdateRequestDto requestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
@@ -50,7 +50,7 @@ public class TaskController {
 
     @PutMapping("/admin")
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Изменение задачи администратором")
+    @Operation(summary = "Изменение задачи администратором")
     public ResponseEntity<String> updateTask(@RequestBody TaskUpdateByAdminRequestDto requestDto) {
         taskService.updateTask(requestDto);
 
@@ -59,7 +59,7 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Удаление задачи")
+    @Operation(summary = "Удаление задачи")
     public ResponseEntity<String> deleteTask(@PathVariable(name = "id") Integer id) {
         taskService.deleteTask(id);
 
@@ -68,7 +68,7 @@ public class TaskController {
 
     @PostMapping("/filters")
     @SecurityRequirement(name = "JWT")
-    @Operation(description = "Получение задач с использованием фильтрации и пагинации")
+    @Operation(summary = "Получение задач с использованием фильтрации и пагинации")
     public ResponseEntity<Page<TaskGetResponseDto>> getTasksWithFilters(@RequestBody TaskFilterRequestDto requestDto) {
         return ResponseEntity.ok(taskService.getTasksWithFilters(requestDto));
     }

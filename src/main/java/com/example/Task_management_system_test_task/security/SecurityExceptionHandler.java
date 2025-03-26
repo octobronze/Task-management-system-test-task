@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class CustomEntryPoint implements AuthenticationEntryPoint, AccessDeniedHandler {
+public class SecurityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         if (exception instanceof JwtException) {

@@ -10,6 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = "user.role",
+                        attributeNodes = @NamedAttributeNode("role")
+                ),
+        }
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +30,6 @@ public class User {
     private String password;
 
     @JoinColumn(name = "role_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 }

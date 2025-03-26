@@ -14,7 +14,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
-@NamedEntityGraph(name = "task.comments", attributeNodes = @NamedAttributeNode("comments"))
+@NamedEntityGraphs(value = {
+        @NamedEntityGraph(
+                name = "task.comments",
+                attributeNodes = {
+                        @NamedAttributeNode("comments"),
+                        @NamedAttributeNode("creator"),
+                        @NamedAttributeNode("implementer")
+                })
+})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,14 +42,14 @@ public class Task {
     @Enumerated(value = EnumType.ORDINAL)
     private TaskPriorityEnum priority;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
     @JoinColumn(name = "creator_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
     @JoinColumn(name = "implementer_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User implementer;
 }

@@ -18,15 +18,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtFilter jwtFilter;
-    private final CustomEntryPoint customEntryPoint;
+    private final SecurityExceptionHandler securityExceptionHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(CsrfConfigurer::disable)
                 .exceptionHandling(e -> e
-                        .authenticationEntryPoint(customEntryPoint)
-                        .accessDeniedHandler(customEntryPoint)
+                        .authenticationEntryPoint(securityExceptionHandler)
+                        .accessDeniedHandler(securityExceptionHandler)
                 )
                 .authorizeHttpRequests(
                         authorizeHttpRequests ->
