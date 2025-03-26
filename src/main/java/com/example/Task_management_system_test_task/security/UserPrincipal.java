@@ -20,6 +20,8 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private List<? extends GrantedAuthority> authorities;
 
+    private static final String ROLE_PREFIX = "Role_";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -36,17 +38,17 @@ public class UserPrincipal implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return this.authorities.iterator().next().getAuthority().equals("ROLE_Admin");
+        return this.authorities.iterator().next().getAuthority().equals(ROLE_PREFIX + "Admin");
     }
 
-    public void setAuthorities(String role) {
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+    public void setAuthorities(String roleName) {
+        this.authorities = List.of(new SimpleGrantedAuthority(ROLE_PREFIX + roleName));
     }
 
     public UserPrincipal(User user) {
         this.id = user.getId();
         this.password = user.getPassword();
         this.username = user.getEmail();
-        this.authorities = List.of(new SimpleGrantedAuthority(user.getRole().getName()));
+        this.authorities = List.of(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().getName()));
     }
 }

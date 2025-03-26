@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.BAD_CREDENTIALS;
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.TASK_NOT_FOUND;
 
 @Service
@@ -69,10 +70,10 @@ public class AuthService {
         User user = userRepository.findOne(UserSpecification.builder()
                 .email(email)
                 .fetchFields(List.of(UserFetchFields.ROLE)).build()
-        ).orElseThrow(() -> new BadRequestException("Bad credentials"));
+        ).orElseThrow(() -> new BadRequestException(BAD_CREDENTIALS));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadRequestException("Bad credentials");
+            throw new BadRequestException(BAD_CREDENTIALS);
         }
 
         return new UserPrincipal(user);

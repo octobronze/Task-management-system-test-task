@@ -27,7 +27,6 @@ public class SecurityExceptionHandler implements AuthenticationEntryPoint, Acces
         }
     }
 
-
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException, ServletException {
         if (exception instanceof AuthorizationDeniedException) {

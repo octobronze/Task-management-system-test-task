@@ -4,4 +4,5 @@ public class ExceptionMessagesConsts {
     public static final String USER_NOT_FOUND = "User not found";
     public static final String TASK_NOT_FOUND = "Task not found";
     public static final String ACCESS_DENIED = "Access denied";
+    public static final String BAD_CREDENTIALS = "bad credentials";
 }
