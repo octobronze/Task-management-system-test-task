@@ -1,12 +1,13 @@
 package com.example.Task_management_system_test_task.services;
 
 import com.example.Task_management_system_test_task.dtos.*;
+import com.example.Task_management_system_test_task.enums.EntityFieldEnum;
 import com.example.Task_management_system_test_task.enums.TaskPriorityEnum;
 import com.example.Task_management_system_test_task.enums.TaskStatusEnum;
-import com.example.Task_management_system_test_task.enums.entity_fetch_fields.TaskFetchFields;
 import com.example.Task_management_system_test_task.exceptions.BadRequestException;
 import com.example.Task_management_system_test_task.repos.TaskRepository;
 import com.example.Task_management_system_test_task.repos.UserRepository;
+import com.example.Task_management_system_test_task.specifications.FetchService;
 import com.example.Task_management_system_test_task.specifications.TaskSpecification;
 import com.example.Task_management_system_test_task.tables.Task;
 import com.example.Task_management_system_test_task.tables.User;
@@ -50,7 +51,7 @@ public class TaskService {
     public void updateTask(TaskUpdateByAdminRequestDto requestDto) {
         Task task = taskRepository.findOne(TaskSpecification.builder()
                         .id(requestDto.getId())
-                        .fetchFields(List.of(TaskFetchFields.IMPLEMENTER)).build())
+                        .fetchService(new FetchService<>(EntityFieldEnum.IMPLEMENTER)).build())
                 .orElseThrow(() -> new BadRequestException(TASK_NOT_FOUND));
 
         if (requestDto.getPriorityIndex() != null) {
@@ -84,12 +85,17 @@ public class TaskService {
     }
 
     public Page<TaskGetResponseDto> getTasksWithFilters(TaskFilterRequestDto requestDto) {
-        System.out.println("Second select");
         return taskRepository.findAll(
                 TaskSpecification.builder()
                         .implementerId(requestDto.getImplementerId())
                         .creatorId(requestDto.getCreatorId())
-                        .fetchFields(List.of(TaskFetchFields.COMMENTS))
+                        .fetchService(new FetchService<>(
+                                List.of(
+                                        List.of(EntityFieldEnum.IMPLEMENTER),
+                                        List.of(EntityFieldEnum.CREATOR),
+                                        List.of(EntityFieldEnum.COMMENTS, EntityFieldEnum.USER)
+                                )
+                        ))
                         .build(),
                 PageRequest.of(requestDto.getPageIndex(), requestDto.getPageSize())
         ).map(DtoMapper::taskToTaskGetResponseDto);

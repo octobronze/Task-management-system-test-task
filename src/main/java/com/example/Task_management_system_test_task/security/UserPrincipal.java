@@ -20,7 +20,7 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private List<? extends GrantedAuthority> authorities;
 
-    private static final String ROLE_PREFIX = "Role_";
+    private static final String ROLE_PREFIX = "ROLE_";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

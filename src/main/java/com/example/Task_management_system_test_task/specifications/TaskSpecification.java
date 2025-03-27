@@ -1,13 +1,10 @@
 package com.example.Task_management_system_test_task.specifications;
 
-import com.example.Task_management_system_test_task.enums.entity_fetch_fields.TaskFetchFields;
 import com.example.Task_management_system_test_task.tables.Task;
 import jakarta.persistence.criteria.*;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.util.List;
 
 @Builder
 @Getter
@@ -19,7 +16,7 @@ public class TaskSpecification implements Specification<Task> {
     private Integer id;
     private Integer implementerId;
     private Integer creatorId;
-    private List<TaskFetchFields> fetchFields;
+    private FetchService<Task> fetchService;
 
     @Override
     public Predicate toPredicate(Root<Task> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -35,10 +32,8 @@ public class TaskSpecification implements Specification<Task> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get(IMPLEMENTER).get(ID), implementerId));
         }
 
-        if (fetchFields != null) {
-            for (var fetchField : fetchFields) {
-                root.fetch(fetchField.getField(), JoinType.LEFT);
-            }
+        if (fetchService != null) {
+            fetchService.fetch(root);
         }
 
         return predicate;

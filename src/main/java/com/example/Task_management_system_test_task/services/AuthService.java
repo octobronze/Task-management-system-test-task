@@ -2,13 +2,13 @@ package com.example.Task_management_system_test_task.services;
 
 import com.example.Task_management_system_test_task.dtos.LoginRequestDto;
 import com.example.Task_management_system_test_task.dtos.LoginResponseDto;
-import com.example.Task_management_system_test_task.enums.entity_fetch_fields.TaskFetchFields;
-import com.example.Task_management_system_test_task.enums.entity_fetch_fields.UserFetchFields;
+import com.example.Task_management_system_test_task.enums.EntityFieldEnum;
 import com.example.Task_management_system_test_task.exceptions.BadRequestException;
 import com.example.Task_management_system_test_task.repos.TaskRepository;
 import com.example.Task_management_system_test_task.repos.UserRepository;
 import com.example.Task_management_system_test_task.security.JwtService;
 import com.example.Task_management_system_test_task.security.UserPrincipal;
+import com.example.Task_management_system_test_task.specifications.FetchService;
 import com.example.Task_management_system_test_task.specifications.TaskSpecification;
 import com.example.Task_management_system_test_task.specifications.UserSpecification;
 import com.example.Task_management_system_test_task.tables.Task;
@@ -17,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.BAD_CREDENTIALS;
 import static com.example.Task_management_system_test_task.consts.ExceptionMessagesConsts.TASK_NOT_FOUND;
@@ -51,7 +49,7 @@ public class AuthService {
 
         Task task = taskRepository.findOne(TaskSpecification.builder()
                 .id(taskId)
-                .fetchFields(List.of(TaskFetchFields.IMPLEMENTER)).build()
+                .fetchService(new FetchService<>(EntityFieldEnum.IMPLEMENTER)).build()
         ).orElseThrow(() -> new BadRequestException(TASK_NOT_FOUND));
 
         return task.getImplementer().getId().equals(userPrincipal.getId());
@@ -60,7 +58,7 @@ public class AuthService {
     public boolean hasAccessToUpdateTask(UserPrincipal userPrincipal, Integer taskId) {
         Task task = taskRepository.findOne(TaskSpecification.builder()
                 .id(taskId)
-                .fetchFields(List.of(TaskFetchFields.IMPLEMENTER)).build()
+                .fetchService(new FetchService<>(EntityFieldEnum.IMPLEMENTER)).build()
         ).orElseThrow(() -> new BadRequestException(TASK_NOT_FOUND));
 
         return task.getImplementer().getId().equals(userPrincipal.getId());
@@ -69,7 +67,7 @@ public class AuthService {
     private UserPrincipal authenticateUser(String email, String password) {
         User user = userRepository.findOne(UserSpecification.builder()
                 .email(email)
-                .fetchFields(List.of(UserFetchFields.ROLE)).build()
+                .fetchService(new FetchService<>(EntityFieldEnum.ROLE)).build()
         ).orElseThrow(() -> new BadRequestException(BAD_CREDENTIALS));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
