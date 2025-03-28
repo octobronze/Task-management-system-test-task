@@ -57,9 +57,9 @@ class AuthServiceUnitTests {
 		));
 
 		Assertions.assertNotNull(responseDto.getToken());
-		Assertions.assertNotNull(responseDto.getLifeTimeSec());
+		Assertions.assertNotNull(responseDto.getLifeTimeMs());
 		Assertions.assertEquals(jwtToken, responseDto.getToken());
-		Assertions.assertEquals(JWT_DURATION, responseDto.getLifeTimeSec());
+		Assertions.assertEquals(JWT_DURATION, responseDto.getLifeTimeMs());
 	}
 
 	@ParameterizedTest

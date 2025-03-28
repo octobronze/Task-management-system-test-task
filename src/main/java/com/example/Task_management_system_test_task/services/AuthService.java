@@ -39,7 +39,7 @@ public class AuthService {
 
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         loginResponseDto.setToken(jwtToken);
-        loginResponseDto.setLifeTimeSec(jwtDuration);
+        loginResponseDto.setLifeTimeMs(jwtDuration);
 
         return loginResponseDto;
     }

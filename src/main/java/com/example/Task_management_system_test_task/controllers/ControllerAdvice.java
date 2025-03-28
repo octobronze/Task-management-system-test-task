@@ -4,6 +4,7 @@ import com.example.Task_management_system_test_task.dtos.ExceptionResponseDto;
 import com.example.Task_management_system_test_task.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,6 +39,15 @@ public class ControllerAdvice {
         response.setMessage(extractDefaultMessageFromValidationException(exception));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponseDto> handleAccessDeniedException(AccessDeniedException exception) {
+        ExceptionResponseDto response = new ExceptionResponseDto();
+
+        response.setMessage(exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     private String extractDefaultMessageFromValidationException(MethodArgumentNotValidException exception) {

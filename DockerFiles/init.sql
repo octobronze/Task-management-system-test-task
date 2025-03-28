@@ -46,3 +46,11 @@ CREATE TABLE "comment" (
 	CONSTRAINT "fkfknte4fhjhet3l1802m1yqa50" FOREIGN KEY ("task_id") REFERENCES "task" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT "fkn6xssinlrtfnm61lwi0ywn71q" FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO "role" ("id", "name")
+VALUES (1,'Admin'),
+       (2, 'User');
+
+INSERT INTO "user" ("id", "email", "password", "role_id")
+VALUES (1, 'admin@mail.ru', '$2a$12$rw8mMI9snC0/w3Kl9zF/dOrNKVhXAvtFy85OZElaS0ymY6IbEDOVW', 1),
+       (2, 'user@mail.ru', '$2a$12$rw8mMI9snC0/w3Kl9zF/dOrNKVhXAvtFy85OZElaS0ymY6IbEDOVW', 2);

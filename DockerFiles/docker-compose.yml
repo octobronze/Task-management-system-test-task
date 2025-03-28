@@ -1,0 +1,37 @@
+name: "task-management-system"
+services:
+  postgres:
+    build:
+      context: ./
+      dockerfile: ./db.Dockerfile
+    image: task-management-system-postgres-image
+    container_name: task-management-system-postgres-container
+    environment:
+      POSTGRES_USER: ${DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
+    ports:
+      - "127.0.0.1:5222:5432"
+    restart: unless-stopped
+    volumes:
+      - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+  task-management-backend:
+    build:
+      context: ./
+      additional_contexts:
+        assets: ../
+      dockerfile: ./Dockerfile
+    image: task-management-system-backend-image
+    container_name: task-management-system-backend-container
+    environment:
+      JWT_SIGNING_KEY: ${JWT_SIGNING_KEY}
+      JWT_DURATION: ${JWT_DURATION}
+      SWAGGER_PASSWORD: ${SWAGGER_PASSWORD}
+      SWAGGER_USERNAME: ${SWAGGER_USERNAME}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+    ports:
+      - "8000:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres

@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter
 public class LoginResponseDto {
     private String token;
-    private Long lifeTimeSec;
+    private Long lifeTimeMs;
 }
